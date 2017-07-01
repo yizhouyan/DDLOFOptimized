@@ -89,7 +89,6 @@ public class CalKdistanceSecond {
 
 		private MultipleOutputs mos;
 
-		private int maxLimitSupportingArea;
 		protected void setup(Context context) throws IOException, InterruptedException {
 			Configuration conf = context.getConfiguration();
 			/** get configuration from file */
@@ -108,7 +107,6 @@ public class CalKdistanceSecond {
 			K = Integer.valueOf(conf.get(SQConfig.strK, "1"));
 			outputLOFPath = conf.get(SQConfig.strLOFMapperOutput);
 			mos = new MultipleOutputs(context);
-			maxLimitSupportingArea = conf.getInt(SQConfig.strMaxLimitSupportingArea, 5000);
 			/** parse files in the cache */
 			try {
 				URI[] cacheFiles = context.getCacheArchives();
@@ -139,11 +137,6 @@ public class CalKdistanceSecond {
 								int tempid = Integer.parseInt(splitsStr[0]);
 								for (int j = 0; j < num_dims * 2 + 1; j++) {
 									partition_store[tempid][j] = Float.parseFloat(splitsStr[j + 1]);
-								}
-								if (partition_store[tempid][4] >= maxLimitSupportingArea){
-									System.out.println("Large Supporting Area: " + partition_store[tempid][4]);
-									countLargeExtend++;
-									partition_store[tempid][4] = maxLimitSupportingArea;
 								}
 								//System.out.println("partitionplan : " + partition_store[tempid][4]);
 							}
